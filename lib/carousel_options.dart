@@ -133,6 +133,8 @@ class CarouselOptions {
   /// Exposed clipBehavior of PageView
   final Clip clipBehavior;
 
+  final Color? overlayColor;
+
   CarouselOptions({
     this.height,
     this.aspectRatio: 16 / 9,
@@ -160,6 +162,7 @@ class CarouselOptions {
     this.disableCenter: false,
     this.padEnds = true,
     this.clipBehavior: Clip.hardEdge,
+    this.overlayColor,
   });
 
   ///Generate new [CarouselOptions] based on old ones.
@@ -189,7 +192,8 @@ class CarouselOptions {
           double? enlargeFactor,
           bool? disableCenter,
           Clip? clipBehavior,
-          bool? padEnds}) =>
+          bool? padEnds,
+          Color? overlayColor}) =>
       CarouselOptions(
         height: height ?? this.height,
         aspectRatio: aspectRatio ?? this.aspectRatio,
@@ -219,5 +223,6 @@ class CarouselOptions {
         disableCenter: disableCenter ?? this.disableCenter,
         clipBehavior: clipBehavior ?? this.clipBehavior,
         padEnds: padEnds ?? this.padEnds,
+        overlayColor: overlayColor ?? this.overlayColor,
       );
 }

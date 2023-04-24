@@ -274,6 +274,23 @@ class CarouselSliderState extends State<CarouselSlider>
         child: Container(child: child, width: width, height: height));
   }
 
+  Widget getOverlayWrapper(Widget? child, double overlayOpacity) {
+    final overlayColor = widget.options.overlayColor;
+    if (overlayColor != null) {
+      return Stack(
+        children: [
+          if (child != null) child,
+          Container(
+            decoration: BoxDecoration(
+              color: overlayColor.withOpacity(overlayOpacity),
+            ),
+          ),
+        ],
+      );
+    }
+    return Center(child: child);
+  }
+
   void onStart() {
     changeMode(CarouselPageChangedReason.manual);
   }
@@ -339,6 +356,7 @@ class CarouselSliderState extends State<CarouselSlider>
             // if `enlargeCenterPage` is true, we must calculate the carousel item's height
             // to display the visual effect
             double itemOffset = 0;
+            double opacityValue = 0;
             if (widget.options.enlargeCenterPage != null &&
                 widget.options.enlargeCenterPage == true) {
               // pageController.page can only be accessed after the first build,
@@ -371,6 +389,7 @@ class CarouselSliderState extends State<CarouselSlider>
                   (1 - (itemOffset.abs() * enlargeFactor)).clamp(0.0, 1.0);
               distortionValue =
                   Curves.easeOut.transform(distortionRatio as double);
+              opacityValue = 1 - distortionRatio;
             }
 
             final double height = widget.options.height ??
@@ -378,12 +397,14 @@ class CarouselSliderState extends State<CarouselSlider>
                     (1 / widget.options.aspectRatio);
 
             if (widget.options.scrollDirection == Axis.horizontal) {
-              return getCenterWrapper(getEnlargeWrapper(child,
+              return getCenterWrapper(getEnlargeWrapper(
+                  getOverlayWrapper(child, opacityValue),
                   height: distortionValue * height,
                   scale: distortionValue,
                   itemOffset: itemOffset));
             } else {
-              return getCenterWrapper(getEnlargeWrapper(child,
+              return getCenterWrapper(getEnlargeWrapper(
+                  getOverlayWrapper(child, opacityValue),
                   width: distortionValue * MediaQuery.of(context).size.width,
                   scale: distortionValue,
                   itemOffset: itemOffset));
