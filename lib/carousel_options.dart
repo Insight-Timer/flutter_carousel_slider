@@ -135,6 +135,9 @@ class CarouselOptions {
 
   final Color? overlayColor;
 
+  //This property defaults to false, if set to true, the center page will be enlarged and the other pages will be fixed.
+  final bool enlargeCenterFixedOthers;
+
   CarouselOptions({
     this.height,
     this.aspectRatio = 16 / 9,
@@ -163,6 +166,7 @@ class CarouselOptions {
     this.padEnds = true,
     this.clipBehavior = Clip.hardEdge,
     this.overlayColor,
+    this.enlargeCenterFixedOthers = false,
   });
 
   ///Generate new [CarouselOptions] based on old ones.
@@ -193,7 +197,8 @@ class CarouselOptions {
           bool? disableCenter,
           Clip? clipBehavior,
           bool? padEnds,
-          Color? overlayColor}) =>
+          Color? overlayColor,
+          bool? enlargeCenterFixedOthers}) =>
       CarouselOptions(
         height: height ?? this.height,
         aspectRatio: aspectRatio ?? this.aspectRatio,
@@ -221,5 +226,6 @@ class CarouselOptions {
         clipBehavior: clipBehavior ?? this.clipBehavior,
         padEnds: padEnds ?? this.padEnds,
         overlayColor: overlayColor ?? this.overlayColor,
+        enlargeCenterFixedOthers: enlargeCenterFixedOthers ?? this.enlargeCenterFixedOthers,
       );
 }

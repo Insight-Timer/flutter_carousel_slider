@@ -360,7 +360,8 @@ class CarouselSliderState extends State<CarouselSlider> with TickerProviderState
               }
 
               final double enlargeFactor = options.enlargeFactor.clamp(0.0, 1.0);
-              final num distortionRatio = (1 - (itemOffset.abs() * enlargeFactor)).clamp(0.0, 1.0);
+              final offsetValue = options.enlargeCenterFixedOthers ? itemOffset.abs().clamp(0, 1) : itemOffset.abs();
+              final num distortionRatio = (1 - (offsetValue * enlargeFactor)).clamp(0.0, 1.0);
               distortionValue = Curves.easeOut.transform(distortionRatio as double);
               opacityValue = 1 - distortionRatio;
             }
